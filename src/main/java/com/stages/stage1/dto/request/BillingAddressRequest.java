@@ -9,7 +9,6 @@ import java.util.UUID;
 @Accessors(chain=true)
 public class BillingAddressRequest {
 
-
     private UUID userId;
 
     private String address;

@@ -15,44 +15,30 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BillingAddressService {
+
     private final WebsiteUserService websiteUserService;
     private final BillingAddressRepository billingAddressRepository;
     //private final BillingAddressEntityConverter billingAddressEntityConverter;
 
     public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
-        WebsiteUser user = websiteUserService.getWebsiteUser(request.getUserId());
+        WebsiteUser user = websiteUserService.getById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
         BillingAddress ba = toBillingAddress(user, request);
         billingAddressRepository.save(ba);
 
-        //BillingAddress ba = billingAddressRepository.findById(request.getUserId()).orElse(null);
-        return findInvoice(ba.getId());
+        return findByInvoiceId(ba.getId());
     }
 
-    public List<BillingAddressResponse> findAllBillingAddress(UUID id) {
-        List<UUID> ids = new ArrayList<>();
-        ids.add(id);
-
-        List<BillingAddress> baList = billingAddressRepository.findAllById(ids);
+    public List<BillingAddressResponse> findAllBillingAddressByUserId(UUID user_id) {
         List<BillingAddressResponse> barList = new ArrayList<>();
-
-        billingAddressRepository.findAllById(ids).forEach(ba ->
-        {
-            Integer i = ba.getInvoiceNumber();
-            BillingAddressResponse bar = toResponse(ba.getWebsiteUser());
-            bar.setInvoiceNumber(i);
-            barList.add(bar);
-        });
+        billingAddressRepository.findAll().forEach( ba -> { if (ba.getWebsiteUser().getId().equals(user_id)) barList.add(toResponse(ba)); } );
 
         return barList;
     }
 
-    public BillingAddressResponse findInvoice(UUID id) {
+    public BillingAddressResponse findByInvoiceId(UUID id) {
         BillingAddress ba = billingAddressRepository.findById(id).orElse(null);
 
-        return new BillingAddressResponse()
-                .setInvoiceNumber(ba.getInvoiceNumber())
-                .setUserId(ba.getWebsiteUser().getId())
-                .setAddress(ba.getAddress());
+        return toResponse(ba);
     }
 
 
@@ -64,31 +50,14 @@ public class BillingAddressService {
                 .setAddress(request.getAddress())
                 .setInvoiceNumber(request.getInvoiceNumber())
                 .setWebsiteUser(user)
-                .setId(request.getUserId())
                 .setCreationDate(user.getCreationDate());
     }
 
     private BillingAddressResponse toResponse(BillingAddress billingAddress) {
-/*
-        List<UUID> ids = new ArrayList<>();
-        ids.add(billingAddress.getId());
-*/
+
         return (new BillingAddressResponse())
                 .setAddress(billingAddress.getAddress())
-                .setUserId(billingAddress.getId())
+                .setUserId(billingAddress.getWebsiteUser().getId())
                 .setInvoiceNumber(billingAddress.getInvoiceNumber());
-    }
-
-    private BillingAddressResponse toResponse(WebsiteUser user) {
-
-        List<UUID> ids = new ArrayList<>();
-        ids.add(user.getId());
-
-        return new BillingAddressResponse()
-
-
-                .setAddress(user.getAddress())
-                .setUserId(user.getId())
-                .setInvoiceNumber(billingAddressRepository.findAllById(ids).size());
     }
 }

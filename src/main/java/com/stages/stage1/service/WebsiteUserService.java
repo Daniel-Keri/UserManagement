@@ -53,19 +53,16 @@ public class WebsiteUserService {
         return websiteUserRepository.findAll();
     }
 
-
     private boolean checkIfUserIsPresent(Optional<WebsiteUser> websiteUser) {
         return websiteUser.isPresent();
     }
 
-
     private Optional<WebsiteUser> findAdminById(UUID uuid) {
         return websiteUserRepository.findById(uuid);
     }
-    private Optional<WebsiteUser> getById(UUID uuid) {
+    public Optional<WebsiteUser> getById(UUID uuid) {
         return websiteUserRepository.findById(uuid);
     }
-
 
     public WebsiteUser findbyEmailAddress(String email) {
         return websiteUserRepository.findByEmail(email);
