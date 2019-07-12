@@ -39,7 +39,8 @@ public  class AdminUserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAdminUser(@PathVariable(value = "id") UUID id) {
+    public void deleteAdminUser(@PathVariable(value = "id") UUID id)
+    {
           adminUserService.hardDeleteAdminUser(id);
     }
 
