@@ -1,6 +1,5 @@
 package com.stages.stage1.service;
 
-import com.stages.stage1.entity.AdminUser;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.repository.user.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ public class WebsiteUserService {
 
     public WebsiteUser getWebsiteUser(UUID uuid) {
 
-        Optional<WebsiteUser> websiteUser = findAdminById(uuid);
+        Optional<WebsiteUser> websiteUser = findWebsiteUser(uuid);
         if (checkIfUserIsPresent(websiteUser)) {
             return websiteUser.get();
         }
@@ -28,7 +27,7 @@ public class WebsiteUserService {
 
     @Transactional
     public WebsiteUser updateWebsiteUser(WebsiteUser websiteUserRequest, UUID uuid) {
-        Optional<WebsiteUser> aUser = findAdminById(uuid);
+        Optional<WebsiteUser> aUser = findWebsiteUser(uuid);
         if (aUser.isPresent()){
             WebsiteUser savedWebsiteUser = aUser.get();
             savedWebsiteUser.setEmail(websiteUserRequest.getEmail())
@@ -45,7 +44,7 @@ public class WebsiteUserService {
     }
 
     public void hardDeleteAdminUser(UUID uuid){
-        Optional<WebsiteUser> adminUser=getById(uuid);
+        Optional<WebsiteUser> adminUser=findWebsiteUser(uuid);
         websiteUserRepository.delete(adminUser.orElse(null));
     }
 
@@ -58,11 +57,7 @@ public class WebsiteUserService {
         return websiteUser.isPresent();
     }
 
-
-    private Optional<WebsiteUser> findAdminById(UUID uuid) {
-        return websiteUserRepository.findById(uuid);
-    }
-    private Optional<WebsiteUser> getById(UUID uuid) {
+    private Optional<WebsiteUser> findWebsiteUser(UUID uuid) {
         return websiteUserRepository.findById(uuid);
     }
 

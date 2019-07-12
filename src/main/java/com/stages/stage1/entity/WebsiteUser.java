@@ -4,6 +4,7 @@ import com.stages.stage1.entity.Gender;
 import com.stages.stage1.entity.ParentUser;
 import com.stages.stage1.entity.Plan;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import static javax.persistence.EnumType.STRING;
 @Entity
 @Table(name = "website_user")
 @Data
+@Accessors(chain = true)
 public class WebsiteUser extends ParentUser {
 
     @Column(name = "birthday")

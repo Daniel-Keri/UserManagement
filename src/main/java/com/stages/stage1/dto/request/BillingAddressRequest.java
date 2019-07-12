@@ -7,7 +7,6 @@ import java.util.UUID;
 @Data
 public class BillingAddressRequest {
 
-
     private UUID userId;
 
     private String address;
