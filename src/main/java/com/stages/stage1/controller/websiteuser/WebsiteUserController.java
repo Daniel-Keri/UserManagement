@@ -37,9 +37,15 @@ public class WebsiteUserController {
         return websiteUserService.updateWebsiteUser(websiteUser,id);
     }
 
+    @ResponseBody
+    @DeleteMapping("/{id}")
+    public WebsiteUser softDelete(@PathVariable("id") UUID id) {
+        return websiteUserService.softDelete(id);
+    }
+
     @DeleteMapping
     public void deleteWebsiteUser(@PathVariable(value = "id") UUID id) {
-        websiteUserService.hardDeleteAdminUser(id);
+        websiteUserService.hardDeleteWebsiteUser(id);
     }
     @GetMapping("findByEmail/{email}")
     public WebsiteUser findByEmail(String email){
