@@ -27,13 +27,6 @@ public class AdminUserService {
         System.out.println("Admin user is not exist");
         return null;
     }
-    private Optional<AdminUser> findAdminById(UUID uuid) {
-        return adminUserRepository.findById(uuid);
-    }
-
-    private boolean checkIfUserIsPresent(Optional<AdminUser> adminUser) {
-        return adminUser.isPresent();
-    }
 
     public AdminUser saveAdminUser(AdminUser adminUser) {
         return adminUserRepository.save(adminUser);
@@ -55,10 +48,6 @@ public class AdminUserService {
         return null;
     }
 
-    private Optional<AdminUser> getById(UUID uuid) {
-        return adminUserRepository.findById(uuid);
-    }
-
     public void hardDeleteAdminUser(UUID uuid){
         Optional<AdminUser> adminUser=getById(uuid);
         adminUserRepository.delete(adminUser.orElse(null));
@@ -71,8 +60,17 @@ public class AdminUserService {
         return adminUserRepository.findByEmail(email);
     }
 
+    private Optional<AdminUser> getById(UUID uuid) {
+        return adminUserRepository.findById(uuid);
+    }
 
+    private Optional<AdminUser> findAdminById(UUID uuid) {
+        return adminUserRepository.findById(uuid);
+    }
 
+    private boolean checkIfUserIsPresent(Optional<AdminUser> adminUser) {
+        return adminUser.isPresent();
+    }
 
 }
 

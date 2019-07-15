@@ -20,7 +20,6 @@ public class BillingAddressService {
     private final WebsiteUserService websiteUserService;
     private final BillingAddressRepository billingAddressRepository;
 
-    //private final BillingAddressEntityConverter billingAddressEntityConverter;
     public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
         WebsiteUser user = websiteUserService.getById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
         BillingAddress ba = toBillingAddress(user, request.setInvoiceNumber(findAllBillingAddressByUserId(user.getId()).size()));
