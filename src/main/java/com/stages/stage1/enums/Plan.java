@@ -1,4 +1,4 @@
-package com.stages.stage1.entity;
+package com.stages.stage1.enums;
 
 public enum Plan {
     FREE,

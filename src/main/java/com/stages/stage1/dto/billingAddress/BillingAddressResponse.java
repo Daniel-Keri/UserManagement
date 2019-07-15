@@ -1,4 +1,4 @@
-package com.stages.stage1.dto.response;
+package com.stages.stage1.dto.billingAddress;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -19,22 +19,19 @@ public class WebsiteUserController {
     private final WebsiteUserService websiteUserService;
 
     @GetMapping("/{id}")
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public WebsiteUser getUser(@PathVariable(value = "id")UUID uuid){
         return websiteUserService.getWebsiteUser(uuid);
     }
 
     @PostMapping
-    @ResponseBody
     @ResponseStatus(OK)
     public WebsiteUser saveUser(@RequestBody WebsiteUser websiteUser) {
         return websiteUserService.saveUser(websiteUser);
     }
     @PutMapping("/{id}")
-    @ResponseBody
     @ResponseStatus(OK)
-    public WebsiteUser updateAdminUser(@PathVariable(value = "id")UUID id, @RequestBody WebsiteUser websiteUser){
+    public WebsiteUser updateWebsiteUser(@PathVariable(value = "id")UUID id, @RequestBody WebsiteUser websiteUser){
         return websiteUserService.updateWebsiteUser(websiteUser,id);
     }
 
@@ -51,11 +48,10 @@ public class WebsiteUserController {
 
     @GetMapping("findByEmail/{email}")
     public WebsiteUser findByEmail(String email){
-        return websiteUserService.findbyEmailAddress(email);
+        return websiteUserService.findByEmailAddress(email);
     }
 
     @GetMapping
-    @ResponseBody
     @ResponseStatus(OK)
     public List<WebsiteUser> getAll(){
        return websiteUserService.getAll();

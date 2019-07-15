@@ -1,21 +1,19 @@
 package com.stages.stage1.entity;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @MappedSuperclass
 @Data
 @Accessors(chain = true)
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
     @Column(name = "id")
@@ -25,5 +23,5 @@ public class BaseEntity {
 
     @CreationTimestamp
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private Instant creationDate;
 }

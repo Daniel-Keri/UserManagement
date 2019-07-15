@@ -1,11 +1,9 @@
 package com.stages.stage1.entity;
 
+import com.stages.stage1.enums.Type;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -13,6 +11,6 @@ import javax.persistence.Table;
 public class AdminUser extends ParentUser {
 
     @Column(name = "type")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Type type;
 }

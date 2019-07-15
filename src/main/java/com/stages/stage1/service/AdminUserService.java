@@ -34,30 +34,30 @@ public class AdminUserService {
 
     @Transactional
     public AdminUser updateAdminUser(AdminUser adminUserRequest, UUID uuid) {
-        Optional<AdminUser> aUser = getById(uuid);
-        if (aUser.isPresent()){
-            AdminUser savedAdminUser = aUser.get();
+        Optional<AdminUser> adminUser = getById(uuid);
+        if (adminUser.isPresent()){
+            AdminUser savedAdminUser = adminUser.get();
             savedAdminUser.setType(adminUserRequest.getType());
             savedAdminUser.setEmail(adminUserRequest.getEmail())
                     .setFirstName(adminUserRequest.getFirstName())
                     .setMiddleName(adminUserRequest.getMiddleName())
                     .setLastName(adminUserRequest.getLastName())
                     .setPassword(adminUserRequest.getPassword());
-            return aUser.get();
+            return adminUser.get();
         }
         return null;
     }
 
     public void hardDeleteAdminUser(UUID uuid){
         Optional<AdminUser> adminUser=getById(uuid);
-        adminUserRepository.delete(adminUser.orElse(null));
+        adminUserRepository.delete(adminUser.orElse(null));//!!!!!!!
     }
 
     public List<AdminUser> getAll(){
         return adminUserRepository.findAll();
     }
 
-    public AdminUser findbyEmailAddress(String email){
+    public AdminUser findByEmailAddress(String email){
         return adminUserRepository.findByEmail(email);
     }
 
