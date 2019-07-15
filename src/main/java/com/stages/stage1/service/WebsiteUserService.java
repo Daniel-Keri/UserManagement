@@ -43,13 +43,13 @@ public class WebsiteUserService {
 
     public WebsiteUser softDelete(UUID id) {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
-        user.ifPresent(u -> {
-            u.setAddress("--DELETED--");
-            u.setBirthday(u.getBirthday().withDayOfMonth(0));
-            u.setFirstName("--DELETED--");
-            u.setMiddleName("--DELETED--");
-            u.setLastName("--DELETED--");
-            u.setEmail(UUID.randomUUID().toString() + "@random.replacement");
+        user.ifPresent(u -> {u
+                .setAddress("--DELETED--")
+                .setPassword("--DELETED--")
+                .setFirstName("--DELETED--")
+                .setMiddleName("--DELETED--")
+                .setLastName("--DELETED--")
+                .setEmail(UUID.randomUUID().toString() + "@random.replacement");
         });
         return user.orElse(null);
     }
