@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import java.util.UUID;
 
 @Data
-@Accessors(chain=true)
+@Accessors(chain = true)
 public class BillingAddressResponse {
 
     private UUID userId;

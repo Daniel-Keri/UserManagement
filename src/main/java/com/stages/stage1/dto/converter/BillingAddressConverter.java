@@ -17,12 +17,12 @@ public class BillingAddressConverter {
     private final BillingAddressRepository billingAddressRepository;
 
     public BillingAddress toBillingAddress(WebsiteUser websiteUser, BillingAddressRequest request) {
-        BillingAddress billingAddress= new BillingAddress();
-        billingAddress.setAddress(request.getAddress());
-        billingAddress.setInvoiceNumber(request.getInvoiceNumber());
-        billingAddress.setWebsiteUser(websiteUser);
-        billingAddress.setId(request.getUserId());
-        billingAddress.setCreationDate(websiteUser.getCreationDate());
+        BillingAddress billingAddress = (BillingAddress) new BillingAddress()
+                .setAddress(request.getAddress())
+                .setInvoiceNumber(request.getInvoiceNumber())
+                .setWebsiteUser(websiteUser)
+                .setId(request.getUserId())
+                .setCreationDate(websiteUser.getCreationDate());
 
         return billingAddress;
     }
@@ -31,10 +31,10 @@ public class BillingAddressConverter {
         List<UUID> ids = new ArrayList<>();
         ids.add(websiteUser.getId());
 
-        BillingAddressResponse response = new BillingAddressResponse();
-        response.setAddress(websiteUser.getAddress());
-        response.setUserId(websiteUser.getId());
-        response.setInvoiceNumber(billingAddressRepository.findAllById(ids).size());
+        BillingAddressResponse response = new BillingAddressResponse()
+        .setAddress(websiteUser.getAddress())
+        .setUserId(websiteUser.getId())
+        .setInvoiceNumber(billingAddressRepository.findAllById(ids).size());
 
         return response;
     }
