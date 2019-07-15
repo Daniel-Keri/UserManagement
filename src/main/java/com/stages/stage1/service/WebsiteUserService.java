@@ -41,6 +41,19 @@ public class WebsiteUserService {
     public WebsiteUser saveUser(WebsiteUser websiteUser) {return websiteUserRepository.save(websiteUser);
     }
 
+    public WebsiteUser softDelete(UUID id) {
+        Optional<WebsiteUser> user = websiteUserRepository.findById(id);
+        user.ifPresent(u -> {
+            u.setAddress("--DELETED--");
+            u.setBirthday(u.getBirthday().withDayOfMonth(0));
+            u.setFirstName("--DELETED--");
+            u.setMiddleName("--DELETED--");
+            u.setLastName("--DELETED--");
+            u.setEmail(UUID.randomUUID().toString() + "@random.replacement");
+        });
+        return user.orElse(null);
+    }
+
     public void hardDeleteWebsiteUser(UUID uuid){
         Optional<WebsiteUser> websiteUser=getById(uuid);
         websiteUserRepository.delete(websiteUser.orElse(null));
