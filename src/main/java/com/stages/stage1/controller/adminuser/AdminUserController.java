@@ -18,20 +18,17 @@ public  class AdminUserController {
     private final AdminUserService adminUserService;
 
     @GetMapping("/{id}")
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public AdminUser getAdminUser(@PathVariable(value ="id")UUID uuid){
         return adminUserService.getAdminUser(uuid);
     }
 
     @PostMapping
-    @ResponseBody
     @ResponseStatus(OK)
     public AdminUser saveAdminUser(@RequestBody AdminUser adminUser) {
         return adminUserService.saveAdminUser(adminUser);
     }
     @PutMapping("/{id}")
-    @ResponseBody
     @ResponseStatus(OK)
     public AdminUser updateAdminUser(@PathVariable(value = "id")UUID id, @RequestBody AdminUser adminUser){
         return adminUserService.updateAdminUser(adminUser,id);
@@ -45,11 +42,10 @@ public  class AdminUserController {
 
     @GetMapping("findByEmail/{email}")
     public AdminUser findByEmail(String email){
-        return adminUserService.findbyEmailAddress(email);
+        return adminUserService.findByEmailAddress(email);
     }
 
     @GetMapping
-    @ResponseBody
     @ResponseStatus(OK)
     public List<AdminUser> getAll(){return adminUserService.getAll();}
 }

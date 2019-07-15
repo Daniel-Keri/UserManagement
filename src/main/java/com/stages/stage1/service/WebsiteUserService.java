@@ -32,7 +32,6 @@ public class WebsiteUserService {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
         user.ifPresent(u -> u
                 .setBirthday(websiteUser.getBirthday())
-                .setAddress(websiteUser.getAddress())
                 .setDisplayName(websiteUser.getDisplayName())
                 .setGender(websiteUser.getGender())
                 .setPlan(websiteUser.getPlan())
@@ -52,7 +51,6 @@ public class WebsiteUserService {
     public WebsiteUser softDelete(UUID id) {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
         user.ifPresent(u -> {u
-            .setAddress("--DELETED--")
             .setPassword("--DELETED--")
             .setFirstName("--DELETED--")
             .setMiddleName("--DELETED--")
@@ -71,7 +69,7 @@ public class WebsiteUserService {
         return websiteUserRepository.findAll();
     }
 
-    public WebsiteUser findbyEmailAddress(String email) {return websiteUserRepository.findByEmail(email);
+    public WebsiteUser findByEmailAddress(String email) {return websiteUserRepository.findByEmail(email);
     }
 
     private boolean checkIfUserIsPresent(Optional<WebsiteUser> websiteUser) {return websiteUser.isPresent();
