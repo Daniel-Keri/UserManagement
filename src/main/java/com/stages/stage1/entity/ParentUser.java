@@ -28,8 +28,9 @@ public class ParentUser extends BaseEntity {
     private String password;
 
     @JsonIgnore
-    public void setPassword(String password){
+    public ParentUser setPassword(String password){
         this.password = new BCryptPasswordEncoder().encode(password);
+        return this;
     }
 
     @JsonIgnore

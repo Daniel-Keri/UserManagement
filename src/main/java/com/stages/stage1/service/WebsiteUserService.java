@@ -28,7 +28,7 @@ public class WebsiteUserService {
     }
 
     @Transactional
-    public WebsiteUser updateUser(WebsiteUser websiteUser, UUID id) {
+    public WebsiteUser updateWebsiteUser(WebsiteUser websiteUser, UUID id) {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
         user.ifPresent(u -> u
                 .setBirthday(websiteUser.getBirthday())
