@@ -56,15 +56,12 @@ public class AdminUserService {
     public List<AdminUser> getAll(){
         return adminUserRepository.findAll();
     }
+
     public AdminUser findbyEmailAddress(String email){
         return adminUserRepository.findByEmail(email);
     }
 
     private Optional<AdminUser> getById(UUID uuid) {
-        return adminUserRepository.findById(uuid);
-    }
-
-    private Optional<AdminUser> findAdminById(UUID uuid) {
         return adminUserRepository.findById(uuid);
     }
 

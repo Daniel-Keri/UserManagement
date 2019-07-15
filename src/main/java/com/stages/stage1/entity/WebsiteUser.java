@@ -1,8 +1,4 @@
 package com.stages.stage1.entity;
-
-import com.stages.stage1.entity.Gender;
-import com.stages.stage1.entity.ParentUser;
-import com.stages.stage1.entity.Plan;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,5 +31,8 @@ public class WebsiteUser extends ParentUser {
     @Column(name = "plan")
     @Enumerated(STRING)
     private Plan plan;
+
+    @Column(name = "display_name")
+    private String displayName;
 
 }

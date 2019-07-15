@@ -7,5 +7,4 @@ import java.util.UUID;
 
 public interface AdminUserRepository extends JpaRepository<AdminUser, UUID> {
     AdminUser findByEmail(String email);
-
 }

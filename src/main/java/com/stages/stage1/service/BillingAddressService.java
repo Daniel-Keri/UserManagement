@@ -20,8 +20,9 @@ public class BillingAddressService {
     private final WebsiteUserService websiteUserService;
     private final BillingAddressRepository billingAddressRepository;
 
+
     public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
-        WebsiteUser user = websiteUserService.getById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
+        WebsiteUser user = websiteUserService.findWebsiteUserById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
         BillingAddress ba = toBillingAddress(user, request);
         billingAddressRepository.save(ba);
 
@@ -42,10 +43,7 @@ public class BillingAddressService {
     }
 
 
-
-    //
     private BillingAddress toBillingAddress(WebsiteUser user, BillingAddressRequest request) {
-
         return (BillingAddress)new BillingAddress()
                 .setAddress(request.getAddress())
                 .setInvoiceNumber(findAllBillingAddressByUserId(user.getId()).size())
@@ -53,7 +51,6 @@ public class BillingAddressService {
     }
 
     private BillingAddressResponse toResponse(BillingAddress billingAddress) {
-
         return (new BillingAddressResponse())
                 .setAddress(billingAddress.getAddress())
                 .setUserId(billingAddress.getWebsiteUser().getId())

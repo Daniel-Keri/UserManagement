@@ -15,6 +15,9 @@ import java.util.UUID;
 public class WebsiteUserService {
     private final WebsiteUserRepository websiteUserRepository;
 
+    public Optional<WebsiteUser> findWebsiteUserById(UUID uuid) {return websiteUserRepository.findById(uuid);
+    }
+
     public WebsiteUser getWebsiteUser(UUID uuid) {
         Optional<WebsiteUser> websiteUser = findWebsiteUserById(uuid);
         if (checkIfUserIsPresent(websiteUser)) {
@@ -33,7 +36,8 @@ public class WebsiteUserService {
                     .setFirstName(websiteUserRequest.getFirstName())
                     .setMiddleName(websiteUserRequest.getMiddleName())
                     .setLastName(websiteUserRequest.getLastName())
-                    .setPassword(websiteUserRequest.getPassword());
+                    .setPassword(websiteUserRequest.getPassword())
+                    .setCreationDate(websiteUserRequest.getCreationDate());
         }
         return aUser.get();
     }
@@ -41,21 +45,21 @@ public class WebsiteUserService {
     public WebsiteUser saveUser(WebsiteUser websiteUser) {return websiteUserRepository.save(websiteUser);
     }
 
+    @Transactional
     public WebsiteUser softDelete(UUID id) {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
-        user.ifPresent(u -> {
-            u.setAddress("--DELETED--");
-            u.setBirthday(u.getBirthday().withDayOfMonth(0));
-            u.setFirstName("--DELETED--");
-            u.setMiddleName("--DELETED--");
-            u.setLastName("--DELETED--");
-            u.setEmail(UUID.randomUUID().toString() + "@random.replacement");
+        user.ifPresent(u -> {u
+            .setAddress("--DELETED--")
+            .setFirstName("--DELETED--")
+            .setMiddleName("--DELETED--")
+            .setLastName("--DELETED--")
+            .setEmail(UUID.randomUUID().toString() + "@random.replacement");
         });
         return user.orElse(null);
     }
 
     public void hardDeleteWebsiteUser(UUID uuid){
-        Optional<WebsiteUser> websiteUser=getById(uuid);
+        Optional<WebsiteUser> websiteUser=findWebsiteUserById(uuid);
         websiteUserRepository.delete(websiteUser.orElse(null));
     }
 
@@ -63,14 +67,14 @@ public class WebsiteUserService {
         return websiteUserRepository.findAll();
     }
 
+    public WebsiteUser findbyEmailAddress(String email) {return websiteUserRepository.findByEmail(email);
+    }
+
     private boolean checkIfUserIsPresent(Optional<WebsiteUser> websiteUser) {return websiteUser.isPresent();
     }
 
-    private Optional<WebsiteUser> findWebsiteUserById(UUID uuid) {return websiteUserRepository.findById(uuid);
-    }
-    public Optional<WebsiteUser> getById(UUID uuid) {return websiteUserRepository.findById(uuid);
-    }
 
-    public WebsiteUser findbyEmailAddress(String email) {return websiteUserRepository.findByEmail(email);
-    }
+
+
+
 }

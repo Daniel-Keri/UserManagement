@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -47,8 +48,16 @@ public class WebsiteUserController {
     public void deleteWebsiteUser(@PathVariable(value = "id") UUID id) {
         websiteUserService.hardDeleteWebsiteUser(id);
     }
+
     @GetMapping("findByEmail/{email}")
     public WebsiteUser findByEmail(String email){
         return websiteUserService.findbyEmailAddress(email);
+    }
+
+    @GetMapping
+    @ResponseBody
+    @ResponseStatus(OK)
+    public List<WebsiteUser> getAll(){
+       return websiteUserService.getAll();
     }
 }
