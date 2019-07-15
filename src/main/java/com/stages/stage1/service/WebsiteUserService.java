@@ -52,7 +52,9 @@ public class WebsiteUserService {
     public WebsiteUser softDelete(UUID id) {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
         user.ifPresent(u -> {u
+            .setBirthday(null)
             .setAddress("--DELETED--")
+            .setDisplayName("--DELETED--")
             .setPassword("--DELETED--")
             .setFirstName("--DELETED--")
             .setMiddleName("--DELETED--")
