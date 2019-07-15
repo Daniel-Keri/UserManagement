@@ -5,11 +5,10 @@ import com.stages.stage1.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.resolve;
+
 
 @RestController
 @RequestMapping("adminUsers")
@@ -52,8 +51,5 @@ public  class AdminUserController {
     @GetMapping
     @ResponseBody
     @ResponseStatus(OK)
-    public List<AdminUser> getAll()
-    {
-        return adminUserService.getAll();
-    }
+    public List<AdminUser> getAll(){return adminUserService.getAll();}
 }
