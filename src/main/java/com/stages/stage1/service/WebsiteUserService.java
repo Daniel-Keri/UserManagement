@@ -28,18 +28,21 @@ public class WebsiteUserService {
     }
 
     @Transactional
-    public WebsiteUser updateWebsiteUser(WebsiteUser websiteUserRequest, UUID uuid) {
-        Optional<WebsiteUser> aUser = findWebsiteUserById(uuid);
-        if (aUser.isPresent()){
-            WebsiteUser savedWebsiteUser = aUser.get();
-            savedWebsiteUser.setEmail(websiteUserRequest.getEmail())
-                    .setFirstName(websiteUserRequest.getFirstName())
-                    .setMiddleName(websiteUserRequest.getMiddleName())
-                    .setLastName(websiteUserRequest.getLastName())
-                    .setPassword(websiteUserRequest.getPassword())
-                    .setCreationDate(websiteUserRequest.getCreationDate());
-        }
-        return aUser.get();
+    public WebsiteUser updateUser(WebsiteUser websiteUser, UUID id) {
+        Optional<WebsiteUser> user = websiteUserRepository.findById(id);
+        user.ifPresent(u -> u
+                .setBirthday(websiteUser.getBirthday())
+                .setAddress(websiteUser.getAddress())
+                .setDisplayName(websiteUser.getDisplayName())
+                .setGender(websiteUser.getGender())
+                .setPlan(websiteUser.getPlan())
+                .setFirstName(websiteUser.getFirstName())
+                .setMiddleName(websiteUser.getMiddleName())
+                .setLastName(websiteUser.getLastName())
+                .setEmail(websiteUser.getEmail())
+                .setPassword(websiteUser.getPassword())
+        );
+        return user.orElse(null);
     }
 
     public WebsiteUser saveUser(WebsiteUser websiteUser) {return websiteUserRepository.save(websiteUser);
@@ -50,6 +53,7 @@ public class WebsiteUserService {
         Optional<WebsiteUser> user = websiteUserRepository.findById(id);
         user.ifPresent(u -> {u
             .setAddress("--DELETED--")
+            .setPassword("--DELETED--")
             .setFirstName("--DELETED--")
             .setMiddleName("--DELETED--")
             .setLastName("--DELETED--")
