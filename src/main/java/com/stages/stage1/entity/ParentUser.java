@@ -1,7 +1,10 @@
 package com.stages.stage1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 
 @MappedSuperclass
@@ -23,4 +26,14 @@ public class ParentUser extends BaseEntity {
 
     @Column(name = "password")
     private String password;
+
+    @JsonIgnore
+    public void setPassword(String password){
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    @JsonIgnore
+    public String getPassword(){
+        return this.password;
+    }
 }

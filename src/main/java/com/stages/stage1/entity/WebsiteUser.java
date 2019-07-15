@@ -34,5 +34,4 @@ public class WebsiteUser extends ParentUser {
 
     @Column(name = "display_name")
     private String displayName;
-
 }
