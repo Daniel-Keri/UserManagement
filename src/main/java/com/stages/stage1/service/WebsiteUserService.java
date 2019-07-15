@@ -16,8 +16,7 @@ public class WebsiteUserService {
     private final WebsiteUserRepository websiteUserRepository;
 
     public WebsiteUser getWebsiteUser(UUID uuid) {
-
-        Optional<WebsiteUser> websiteUser = findWebsiteUser(uuid);
+        Optional<WebsiteUser> websiteUser = findWebsiteUserById(uuid);
         if (checkIfUserIsPresent(websiteUser)) {
             return websiteUser.get();
         }
@@ -27,7 +26,7 @@ public class WebsiteUserService {
 
     @Transactional
     public WebsiteUser updateWebsiteUser(WebsiteUser websiteUserRequest, UUID uuid) {
-        Optional<WebsiteUser> aUser = findWebsiteUser(uuid);
+        Optional<WebsiteUser> aUser = findWebsiteUserById(uuid);
         if (aUser.isPresent()){
             WebsiteUser savedWebsiteUser = aUser.get();
             savedWebsiteUser.setEmail(websiteUserRequest.getEmail())
@@ -38,31 +37,27 @@ public class WebsiteUserService {
         }
         return aUser.get();
     }
-    public WebsiteUser saveUser(WebsiteUser websiteUser) {
 
-        return websiteUserRepository.save(websiteUser);
+    public WebsiteUser saveUser(WebsiteUser websiteUser) {return websiteUserRepository.save(websiteUser);
     }
 
-    public void hardDeleteAdminUser(UUID uuid){
-        Optional<WebsiteUser> adminUser=findWebsiteUser(uuid);
-        websiteUserRepository.delete(adminUser.orElse(null));
+    public void hardDeleteWebsiteUser(UUID uuid){
+        Optional<WebsiteUser> websiteUser=getById(uuid);
+        websiteUserRepository.delete(websiteUser.orElse(null));
     }
 
     public List<WebsiteUser> getAll(){
         return websiteUserRepository.findAll();
     }
 
-
-    private boolean checkIfUserIsPresent(Optional<WebsiteUser> websiteUser) {
-        return websiteUser.isPresent();
+    private boolean checkIfUserIsPresent(Optional<WebsiteUser> websiteUser) {return websiteUser.isPresent();
     }
 
-    private Optional<WebsiteUser> findWebsiteUser(UUID uuid) {
-        return websiteUserRepository.findById(uuid);
+    private Optional<WebsiteUser> findWebsiteUserById(UUID uuid) {return websiteUserRepository.findById(uuid);
+    }
+    public Optional<WebsiteUser> getById(UUID uuid) {return websiteUserRepository.findById(uuid);
     }
 
-
-    public WebsiteUser findbyEmailAddress(String email) {
-        return websiteUserRepository.findByEmail(email);
+    public WebsiteUser findbyEmailAddress(String email) {return websiteUserRepository.findByEmail(email);
     }
 }

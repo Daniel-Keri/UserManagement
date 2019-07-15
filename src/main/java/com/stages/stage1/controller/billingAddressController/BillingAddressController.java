@@ -19,6 +19,7 @@ public class BillingAddressController {
 
     private final BillingAddressService billingAddressService;
 
+    // http://localhost:8080/billing/createBilling
     @ResponseStatus(CREATED)
     @ResponseBody
     @PostMapping("/createBilling")
@@ -26,11 +27,19 @@ public class BillingAddressController {
         return billingAddressService.saveBillingAddress(request);
     }
 
+    // http://localhost:8080/billing/getInvoices/{user_id}
     @ResponseStatus(OK)
     @ResponseBody
-    @GetMapping("/getInvoices/{id}")
-    public List<BillingAddressResponse> findAllBillingAddress(@PathVariable("id") UUID id) {
-        return billingAddressService.findAllBillingAddress(id);
+    @GetMapping("/getInvoices/{user_id}")
+    public List<BillingAddressResponse> findAllBillingAddressByUserId(@PathVariable("user_id") UUID user_id) {
+        return billingAddressService.findAllBillingAddressByUserId(user_id);
     }
 
+    // http://localhost:8080/billing/getInvoices/invoice/{invoice_id}
+    @ResponseStatus(OK)
+    @ResponseBody
+    @GetMapping("/getInvoices/invoice/{invoice_id}")
+    public BillingAddressResponse findInvoice(@PathVariable("invoice_id") UUID invoice_id) {
+        return billingAddressService.findByInvoiceId(invoice_id);
+    }
 }
