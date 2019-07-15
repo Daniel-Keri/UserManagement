@@ -1,6 +1,5 @@
 package com.stages.stage1.controller.websiteuser;
 
-import com.stages.stage1.entity.AdminUser;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.service.WebsiteUserService;
 import lombok.RequiredArgsConstructor;
