@@ -22,7 +22,7 @@ public class BillingAddressService {
 
     public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
         WebsiteUser user = websiteUserService.getById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
-        BillingAddress ba = toBillingAddress(user, request.setInvoiceNumber(findAllBillingAddressByUserId(user.getId()).size()));
+        BillingAddress ba = toBillingAddress(user, request);
         billingAddressRepository.save(ba);
 
         return findByInvoiceId(ba.getId());
@@ -48,9 +48,8 @@ public class BillingAddressService {
 
         return (BillingAddress)new BillingAddress()
                 .setAddress(request.getAddress())
-                .setInvoiceNumber(request.getInvoiceNumber())
-                .setWebsiteUser(user)
-                .setCreationDate(user.getCreationDate());
+                .setInvoiceNumber(findAllBillingAddressByUserId(user.getId()).size())
+                .setWebsiteUser(user);
     }
 
     private BillingAddressResponse toResponse(BillingAddress billingAddress) {
