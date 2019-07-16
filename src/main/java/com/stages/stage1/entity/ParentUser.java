@@ -2,12 +2,14 @@ package com.stages.stage1.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 
 @MappedSuperclass
 @Data
 @Accessors(chain = true)
-public class ParentUser extends BaseEntity {
+public abstract class ParentUser extends BaseEntity {
 
     @Column(name = "first_name")
     private String firstName;
@@ -23,4 +25,10 @@ public class ParentUser extends BaseEntity {
 
     @Column(name = "password")
     private String password;
+
+    public ParentUser setPassword(String password){
+        this.password = new BCryptPasswordEncoder().encode(password);
+        return this;
+    }
+    //replace to the service
 }

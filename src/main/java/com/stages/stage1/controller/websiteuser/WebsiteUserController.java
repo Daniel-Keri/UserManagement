@@ -1,11 +1,14 @@
 package com.stages.stage1.controller.websiteuser;
 
+import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
+import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.service.WebsiteUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -17,32 +20,52 @@ public class WebsiteUserController {
 
     private final WebsiteUserService websiteUserService;
 
+    // GET
+    // http://localhost:8080/websiteUsers
+    @GetMapping
+    public List<WebsiteUserResponse> findAll(){
+        return websiteUserService.findAll();
+    }
+
+    // http://localhost:8080/websiteUsers/{id}
     @GetMapping("/{id}")
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public WebsiteUser getUser(@PathVariable(value = "id")UUID uuid){
-        return websiteUserService.getWebsiteUser(uuid);
+    public WebsiteUserResponse findById(@PathVariable(value = "id") UUID id){
+        return websiteUserService.findById(id);
     }
 
+    // http://localhost:8080/websiteUsers/findByEmail/{email}
+    @GetMapping("/findByEmail/{email}")
+    public WebsiteUserResponse findByEmail(@PathVariable(value = "email") String email){
+        return websiteUserService.findByEmail(email);
+    }
+
+    // SAVE
     @PostMapping
-    @ResponseBody
-    @ResponseStatus(OK)
-    public WebsiteUser saveUser(@RequestBody WebsiteUser websiteUser) {
-        return websiteUserService.saveUser(websiteUser);
-    }
-    @PutMapping("/{id}")
-    @ResponseBody
-    @ResponseStatus(OK)
-    public WebsiteUser updateAdminUser(@PathVariable(value = "id")UUID id, @RequestBody WebsiteUser websiteUser){
-        return websiteUserService.updateWebsiteUser(websiteUser,id);
+    public WebsiteUserResponse save(@RequestBody WebsiteUserRequest websiteUserRequest) {
+        return websiteUserService.save(websiteUserRequest);
     }
 
-    @DeleteMapping
-    public void deleteWebsiteUser(@PathVariable(value = "id") UUID id) {
-        websiteUserService.hardDeleteAdminUser(id);
+    // UPDATE
+    // http://localhost:8080/websiteUsers/{id}
+    @PutMapping("/{id}")
+    public WebsiteUserResponse update(@PathVariable(value = "id") UUID id, @RequestBody WebsiteUserRequest websiteUserRequest){
+        return websiteUserService.update(id, websiteUserRequest);
     }
-    @GetMapping("findByEmail/{email}")
-    public WebsiteUser findByEmail(String email){
-        return websiteUserService.findbyEmailAddress(email);
+
+    // DELETE
+    // http://localhost:8080/websiteUsers/{id}
+    @ResponseBody
+    @DeleteMapping("/{id}")
+    public WebsiteUserResponse softDelete(@PathVariable("id") UUID id) {
+        return websiteUserService.softDelete(id);
     }
+
+    // http://localhost:8080/websiteUsers/{id}
+    @DeleteMapping("/delete/{id}")
+    public void hardDelete(@PathVariable(value = "id") UUID id) {
+        websiteUserService.hardDelete(id);
+    }
+
+
+
 }

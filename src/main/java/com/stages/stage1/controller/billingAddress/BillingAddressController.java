@@ -1,7 +1,7 @@
-package com.stages.stage1.controller.billingAddressController;
+package com.stages.stage1.controller.billingAddress;
 
-import com.stages.stage1.dto.request.BillingAddressRequest;
-import com.stages.stage1.dto.response.BillingAddressResponse;
+import com.stages.stage1.dto.billingAddress.BillingAddressRequest;
+import com.stages.stage1.dto.billingAddress.BillingAddressResponse;
 import com.stages.stage1.service.BillingAddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,6 @@ public class BillingAddressController {
 
     // http://localhost:8080/billing/createBilling
     @ResponseStatus(CREATED)
-    @ResponseBody
     @PostMapping("/createBilling")
     public BillingAddressResponse saveBillingAddress(@RequestBody BillingAddressRequest request) {
         return billingAddressService.saveBillingAddress(request);
@@ -29,7 +28,6 @@ public class BillingAddressController {
 
     // http://localhost:8080/billing/getInvoices/{user_id}
     @ResponseStatus(OK)
-    @ResponseBody
     @GetMapping("/getInvoices/{user_id}")
     public List<BillingAddressResponse> findAllBillingAddressByUserId(@PathVariable("user_id") UUID user_id) {
         return billingAddressService.findAllBillingAddressByUserId(user_id);
@@ -37,7 +35,6 @@ public class BillingAddressController {
 
     // http://localhost:8080/billing/getInvoices/invoice/{invoice_id}
     @ResponseStatus(OK)
-    @ResponseBody
     @GetMapping("/getInvoices/invoice/{invoice_id}")
     public BillingAddressResponse findInvoice(@PathVariable("invoice_id") UUID invoice_id) {
         return billingAddressService.findByInvoiceId(invoice_id);
