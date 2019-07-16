@@ -5,7 +5,9 @@ import com.stages.stage1.dto.billingAddress.BillingAddressRequest;
 import com.stages.stage1.dto.billingAddress.BillingAddressResponse;
 import com.stages.stage1.entity.BillingAddress;
 import com.stages.stage1.entity.WebsiteUser;
+import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.repository.billingAddress.BillingAddressRepository;
+import com.stages.stage1.repository.user.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -18,13 +20,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BillingAddressService {
 
-    private final WebsiteUserService websiteUserService;
+    private final WebsiteUserRepository websiteUserRepository;
     private final BillingAddressRepository billingAddressRepository;
     private final BillingAddressConverter billingAddressConverter;
 
 
     public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
-        WebsiteUser user = websiteUserService.findWebsiteUserById(request.getUserId()).orElseThrow(IllegalArgumentException::new);
+        WebsiteUser user = websiteUserRepository.findById(request.getUserId()).orElseThrow(WebsiteUserNotFoundException::new);
         BillingAddress ba = billingAddressConverter.toBillingAddress(user, request, findAllBillingAddressByUserId(user.getId()));
         billingAddressRepository.save(ba);
 

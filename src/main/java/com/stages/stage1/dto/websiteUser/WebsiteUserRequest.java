@@ -31,12 +31,12 @@ public class WebsiteUserRequest {
     // </ParentUser>
 
     // <WebsiteUser>
+    private String displayName;
+
     private Instant birthday;
 
     private Gender gender;
 
     private Plan plan;
-
-    private String displayName;
     // </WebsiteUser>
 }

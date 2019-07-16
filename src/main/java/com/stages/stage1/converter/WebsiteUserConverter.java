@@ -3,17 +3,43 @@ package com.stages.stage1.converter;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class WebsiteUserConverter {
 
     public WebsiteUser toWebsiteUser(WebsiteUserRequest websiteUserRequest) {
 
-        return
+        return (WebsiteUser)new WebsiteUser()
+            .setDisplayName(websiteUserRequest.getDisplayName())
+            .setBirthday(websiteUserRequest.getBirthday())
+            .setGender(websiteUserRequest.getGender())
+            .setPlan(websiteUserRequest.getPlan())
+            .setFirstName(websiteUserRequest.getFirstName())
+            .setMiddleName(websiteUserRequest.getMiddleName())
+            .setLastName(websiteUserRequest.getLastName())
+            .setEmail(websiteUserRequest.getEmail())
+            .setPassword(websiteUserRequest.getPassword())
+            .setId(websiteUserRequest.getId())
+            .setCreationDate(websiteUserRequest.getCreationDate());
     }
 
     public WebsiteUserResponse toResponce(WebsiteUser websiteUser) {
 
-        return
+        return new WebsiteUserResponse()
+                .setDisplayName(websiteUser.getDisplayName())
+                .setBirthday(websiteUser.getBirthday())
+                .setGender(websiteUser.getGender())
+                .setPlan(websiteUser.getPlan())
+                .setFirstName(websiteUser.getFirstName())
+                .setMiddleName(websiteUser.getMiddleName())
+                .setLastName(websiteUser.getLastName())
+                .setEmail(websiteUser.getEmail())
+                //.setPassword(websiteUser.getPassword())
+                .setId(websiteUser.getId())
+                .setCreationDate(websiteUser.getCreationDate());
     }
 
 }

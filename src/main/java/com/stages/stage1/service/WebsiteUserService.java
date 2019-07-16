@@ -1,6 +1,7 @@
 package com.stages.stage1.service;
 
 import com.stages.stage1.converter.WebsiteUserConverter;
+import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
@@ -28,45 +29,45 @@ public class WebsiteUserService {
         return websiteUserResponses;
     }
 
-    public WebsiteUserResponse findById(UUID id) {
+    public WebsiteUserResponse findById(UUID id) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponce(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
-    public WebsiteUserResponse findByEmail(String email) {
+    public WebsiteUserResponse findByEmail(String email) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponce(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
     // SAVE
-    public WebsiteUserResponse saveUser(WebsiteUser websiteUser) {
+    public WebsiteUserResponse save(WebsiteUserRequest websiteUserRequest) {
 
-        return websiteUserConverter.toResponce(websiteUserRepository.save(websiteUser));
+        return websiteUserConverter.toResponce(websiteUserRepository.save(websiteUserConverter.toWebsiteUser(websiteUserRequest)));
     }
 
     // UPDATE
     @Transactional
-    public WebsiteUserResponse update(WebsiteUser websiteUser, UUID id) {
+    public WebsiteUserResponse update(UUID id, WebsiteUserRequest websiteUserRequest) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponce(
             (WebsiteUser) websiteUserRepository.findById(id)
             .orElseThrow(WebsiteUserNotFoundException::new)
 
-            .setBirthday(websiteUser.getBirthday())
-            .setDisplayName(websiteUser.getDisplayName())
-            .setGender(websiteUser.getGender())
-            .setPlan(websiteUser.getPlan())
-            .setFirstName(websiteUser.getFirstName())
-            .setMiddleName(websiteUser.getMiddleName())
-            .setLastName(websiteUser.getLastName())
-            .setEmail(websiteUser.getEmail())
-            .setPassword(websiteUser.getPassword())
+            .setBirthday(websiteUserRequest.getBirthday())
+            .setDisplayName(websiteUserRequest.getDisplayName())
+            .setGender(websiteUserRequest.getGender())
+            .setPlan(websiteUserRequest.getPlan())
+            .setFirstName(websiteUserRequest.getFirstName())
+            .setMiddleName(websiteUserRequest.getMiddleName())
+            .setLastName(websiteUserRequest.getLastName())
+            .setEmail(websiteUserRequest.getEmail())
+            .setPassword(websiteUserRequest.getPassword())
         );
     }
 
     // DELETE
     @Transactional
-    public WebsiteUserResponse softDelete(UUID id) {
+    public WebsiteUserResponse softDelete(UUID id) throws WebsiteUserNotFoundException {
         return websiteUserConverter.toResponce(
             (WebsiteUser) websiteUserRepository.findById(id)
             .orElseThrow(WebsiteUserNotFoundException::new)
@@ -85,7 +86,7 @@ public class WebsiteUserService {
         );
     }
 
-    public void hardDelete(UUID id){
+    public void hardDelete(UUID id) throws WebsiteUserNotFoundException {
 
         websiteUserRepository.delete(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
