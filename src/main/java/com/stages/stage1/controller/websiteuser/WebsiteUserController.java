@@ -33,6 +33,10 @@ public class WebsiteUserController {
     public WebsiteUserResponse findById(@PathVariable(value = "id") UUID id) throws WebsiteUserNotFoundException {
         return websiteUserService.findById(id);
     }
+    @GetMapping("/{firstName}")
+    public WebsiteUserResponse findByName(@PathVariable(value = "firstName") String firstName){
+        return  websiteUserService.findByName(firstName);
+    }
 
     // http://localhost:8080/websiteUsers/findByEmail/{email}
     @GetMapping("/findByEmail/{email}")

@@ -35,6 +35,10 @@ public class WebsiteUserService {
         return websiteUserConverter.toResponse(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
+    public WebsiteUserResponse findByName(String firstName) {
+        return  websiteUserConverter.toResponse(websiteUserRepository.findByName(firstName).orElseThrow(WebsiteUserNotFoundException::new));
+    }
+
     public WebsiteUserResponse findByEmail(String email) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponse(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
@@ -90,6 +94,7 @@ public class WebsiteUserService {
 
         websiteUserRepository.delete(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
+
 
 
 }
