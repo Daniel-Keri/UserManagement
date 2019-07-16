@@ -22,7 +22,7 @@ public class WebsiteUserService {
     private final WebsiteUserRepository websiteUserRepository;
     private final WebsiteUserConverter websiteUserConverter;
 
-    // get
+    // GET
     public List<WebsiteUserResponse> findAll(){
         List<WebsiteUserResponse> websiteUserResponses = new ArrayList<>();
         websiteUserRepository.findAll()

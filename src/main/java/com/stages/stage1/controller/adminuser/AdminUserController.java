@@ -1,5 +1,7 @@
 package com.stages.stage1.controller.adminuser;
 
+import com.stages.stage1.dto.adminUser.AdminUserRequest;
+import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.entity.AdminUser;
 import com.stages.stage1.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +21,19 @@ public  class AdminUserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AdminUser getAdminUser(@PathVariable(value ="id")UUID uuid){
-        return adminUserService.getAdminUser(uuid);
+    public AdminUserResponse getAdminUser(@PathVariable(value ="id")UUID uuid){
+        return adminUserService.findById(uuid);
     }
 
     @PostMapping
     @ResponseStatus(OK)
-    public AdminUser saveAdminUser(@RequestBody AdminUser adminUser) {
-        return adminUserService.saveAdminUser(adminUser);
+    public AdminUserResponse saveAdminUser(@RequestBody AdminUserRequest adminUserRequest) {
+        return adminUserService.save(adminUserRequest);
     }
     @PutMapping("/{id}")
     @ResponseStatus(OK)
-    public AdminUser updateAdminUser(@PathVariable(value = "id")UUID id, @RequestBody AdminUser adminUser){
-        return adminUserService.updateAdminUser(adminUser,id);
+    public AdminUserResponse updateAdminUser(@PathVariable(value = "id")UUID id, @RequestBody AdminUserRequest adminUserRequest){
+        return adminUserService.update(id,adminUserRequest);
     }
 
     @DeleteMapping("/{id}")
@@ -42,10 +44,10 @@ public  class AdminUserController {
 
     @GetMapping("findByEmail/{email}")
     public AdminUser findByEmail(String email){
-        return adminUserService.findByEmailAddress(email);
+        return adminUserService.findByEmail(email);
     }
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<AdminUser> getAll(){return adminUserService.findAll();}
+    public List<AdminUserResponse> getAll(){return adminUserService.findAll();}
 }
