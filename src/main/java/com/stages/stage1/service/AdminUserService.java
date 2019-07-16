@@ -1,12 +1,14 @@
 package com.stages.stage1.service;
 
+import com.stages.stage1.converter.AdminUserConverter;
+import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.entity.AdminUser;
 import com.stages.stage1.repository.admin.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,9 +19,20 @@ public class AdminUserService {
 
 
     private final AdminUserRepository adminUserRepository;
+    private final AdminUserConverter adminUserConverter;
+
+    public List<AdminUserResponse> findAll(){
+        List<AdminUserResponse> adminUserResponses = new ArrayList<>();
+        adminUserRepository.findAll()
+                .forEach(adminUser -> adminUserResponses.add(adminUserConverter.toResponse(adminUser)));
+        return adminUserResponses;
+    }
+    public Optional<AdminUser> findById(UUID uuid) {
+        return adminUserRepository.findById(uuid);
+    }
 
     public AdminUser getAdminUser(UUID uuid) {
-        Optional<AdminUser> adminUser = getById(uuid);
+        Optional<AdminUser> adminUser = findById(uuid);
         if (checkIfUserIsPresent(adminUser)) {
             return adminUser.get();
         }
@@ -33,7 +46,7 @@ public class AdminUserService {
 
     @Transactional
     public AdminUser updateAdminUser(AdminUser adminUserRequest, UUID uuid) {
-        Optional<AdminUser> adminUser = getById(uuid);
+        Optional<AdminUser> adminUser = findById(uuid);
         if (adminUser.isPresent()){
             AdminUser savedAdminUser = adminUser.get();
             savedAdminUser.setType(adminUserRequest.getType());
@@ -48,21 +61,17 @@ public class AdminUserService {
     }
 
     public void hardDeleteAdminUser(UUID uuid){
-        Optional<AdminUser> adminUser=getById(uuid);
+        Optional<AdminUser> adminUser= findById(uuid);
         adminUserRepository.delete(adminUser.orElse(null));//!!!!!!!
     }
 
-    public List<AdminUser> getAll(){
-        return adminUserRepository.findAll();
-    }
+
 
     public AdminUser findByEmailAddress(String email){
         return adminUserRepository.findByEmail(email);
     }
 
-    private Optional<AdminUser> getById(UUID uuid) {
-        return adminUserRepository.findById(uuid);
-    }
+
 
     private boolean checkIfUserIsPresent(Optional<AdminUser> adminUser) {
         return adminUser.isPresent();

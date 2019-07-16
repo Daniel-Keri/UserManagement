@@ -47,5 +47,5 @@ public  class AdminUserController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<AdminUser> getAll(){return adminUserService.getAll();}
+    public List<AdminUser> getAll(){return adminUserService.findAll();}
 }

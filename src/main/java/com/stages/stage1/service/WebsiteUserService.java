@@ -1,5 +1,6 @@
 package com.stages.stage1.service;
 
+import com.stages.stage1.config.securityConfig.Encoder;
 import com.stages.stage1.converter.WebsiteUserConverter;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
@@ -21,35 +22,35 @@ public class WebsiteUserService {
     private final WebsiteUserRepository websiteUserRepository;
     private final WebsiteUserConverter websiteUserConverter;
 
-    // GET
+    // get
     public List<WebsiteUserResponse> findAll(){
         List<WebsiteUserResponse> websiteUserResponses = new ArrayList<>();
         websiteUserRepository.findAll()
-                .forEach(websiteUser -> websiteUserResponses.add(websiteUserConverter.toResponce(websiteUser)));
+                .forEach(websiteUser -> websiteUserResponses.add(websiteUserConverter.toResponse(websiteUser)));
         return websiteUserResponses;
     }
 
     public WebsiteUserResponse findById(UUID id) throws WebsiteUserNotFoundException {
 
-        return websiteUserConverter.toResponce(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
+        return websiteUserConverter.toResponse(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
     public WebsiteUserResponse findByEmail(String email) throws WebsiteUserNotFoundException {
 
-        return websiteUserConverter.toResponce(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
+        return websiteUserConverter.toResponse(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
     // SAVE
     public WebsiteUserResponse save(WebsiteUserRequest websiteUserRequest) {
 
-        return websiteUserConverter.toResponce(websiteUserRepository.save(websiteUserConverter.toWebsiteUser(websiteUserRequest)));
+        return websiteUserConverter.toResponse(websiteUserRepository.save(websiteUserConverter.toWebsiteUser(websiteUserRequest)));
     }
 
     // UPDATE
     @Transactional
     public WebsiteUserResponse update(UUID id, WebsiteUserRequest websiteUserRequest) throws WebsiteUserNotFoundException {
 
-        return websiteUserConverter.toResponce(
+        return websiteUserConverter.toResponse(
             (WebsiteUser) websiteUserRepository.findById(id)
             .orElseThrow(WebsiteUserNotFoundException::new)
 
@@ -67,7 +68,7 @@ public class WebsiteUserService {
 
     // DELETE
     public WebsiteUserResponse softDelete(UUID id) throws WebsiteUserNotFoundException {
-        return websiteUserConverter.toResponce(
+        return websiteUserConverter.toResponse(
             (WebsiteUser) websiteUserRepository.findById(id)
             .orElseThrow(WebsiteUserNotFoundException::new)
 
@@ -89,4 +90,6 @@ public class WebsiteUserService {
 
         websiteUserRepository.delete(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
+
+
 }

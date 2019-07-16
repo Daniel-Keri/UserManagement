@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class WebsiteUserNotFoundExceptonHandler {
+public class WebsiteUserNotFoundExceptionHandler {
 
     @ExceptionHandler(WebsiteUserNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

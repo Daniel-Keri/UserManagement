@@ -3,12 +3,16 @@ package com.stages.stage1.converter;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
+import com.stages.stage1.service.PasswordEncoderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class WebsiteUserConverter {
+
+    private final PasswordEncoderService passwordEncoderService;
 
     public WebsiteUser toWebsiteUser(WebsiteUserRequest websiteUserRequest) {
 
@@ -21,12 +25,12 @@ public class WebsiteUserConverter {
             .setMiddleName(websiteUserRequest.getMiddleName())
             .setLastName(websiteUserRequest.getLastName())
             .setEmail(websiteUserRequest.getEmail())
-            .setPassword(websiteUserRequest.getPassword())
+            .setPassword(passwordEncoderService.encode(websiteUserRequest.getPassword()))
             .setId(websiteUserRequest.getId())
             .setCreationDate(websiteUserRequest.getCreationDate());
     }
 
-    public WebsiteUserResponse toResponce(WebsiteUser websiteUser) {
+    public WebsiteUserResponse toResponse(WebsiteUser websiteUser) {
 
         return new WebsiteUserResponse()
             .setDisplayName(websiteUser.getDisplayName())
