@@ -1,11 +1,9 @@
 package com.stages.stage1.service;
 
 import com.stages.stage1.entity.AdminUser;
-import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.repository.admin.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +14,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AdminUserService {
+
 
     private final AdminUserRepository adminUserRepository;
 
@@ -68,6 +67,7 @@ public class AdminUserService {
     private boolean checkIfUserIsPresent(Optional<AdminUser> adminUser) {
         return adminUser.isPresent();
     }
+
 
 }
 
