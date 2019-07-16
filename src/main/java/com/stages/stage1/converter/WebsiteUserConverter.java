@@ -29,17 +29,17 @@ public class WebsiteUserConverter {
     public WebsiteUserResponse toResponce(WebsiteUser websiteUser) {
 
         return new WebsiteUserResponse()
-                .setDisplayName(websiteUser.getDisplayName())
-                .setBirthday(websiteUser.getBirthday())
-                .setGender(websiteUser.getGender())
-                .setPlan(websiteUser.getPlan())
-                .setFirstName(websiteUser.getFirstName())
-                .setMiddleName(websiteUser.getMiddleName())
-                .setLastName(websiteUser.getLastName())
-                .setEmail(websiteUser.getEmail())
-                //.setPassword(websiteUser.getPassword())
-                .setId(websiteUser.getId())
-                .setCreationDate(websiteUser.getCreationDate());
+            .setDisplayName(websiteUser.getDisplayName())
+            .setBirthday(websiteUser.getBirthday())
+            .setGender(websiteUser.getGender())
+            .setPlan(websiteUser.getPlan())
+            .setFirstName(websiteUser.getFirstName())
+            .setMiddleName(websiteUser.getMiddleName())
+            .setLastName(websiteUser.getLastName())
+            .setEmail(websiteUser.getEmail())
+            //.setPassword(websiteUser.getPassword())
+            .setId(websiteUser.getId())
+            .setCreationDate(websiteUser.getCreationDate());
     }
 
 }

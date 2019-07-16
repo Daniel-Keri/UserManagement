@@ -3,6 +3,7 @@ package com.stages.stage1.controller.websiteuser;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
+import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.service.WebsiteUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,19 +24,19 @@ public class WebsiteUserController {
     // GET
     // http://localhost:8080/websiteUsers
     @GetMapping
-    public List<WebsiteUserResponse> findAll(){
+    public List<WebsiteUserResponse> findAll() {
         return websiteUserService.findAll();
     }
 
     // http://localhost:8080/websiteUsers/{id}
     @GetMapping("/{id}")
-    public WebsiteUserResponse findById(@PathVariable(value = "id") UUID id){
+    public WebsiteUserResponse findById(@PathVariable(value = "id") UUID id) throws WebsiteUserNotFoundException {
         return websiteUserService.findById(id);
     }
 
     // http://localhost:8080/websiteUsers/findByEmail/{email}
     @GetMapping("/findByEmail/{email}")
-    public WebsiteUserResponse findByEmail(@PathVariable(value = "email") String email){
+    public WebsiteUserResponse findByEmail(@PathVariable(value = "email") String email) throws WebsiteUserNotFoundException {
         return websiteUserService.findByEmail(email);
     }
 
@@ -48,7 +49,7 @@ public class WebsiteUserController {
     // UPDATE
     // http://localhost:8080/websiteUsers/{id}
     @PutMapping("/{id}")
-    public WebsiteUserResponse update(@PathVariable(value = "id") UUID id, @RequestBody WebsiteUserRequest websiteUserRequest){
+    public WebsiteUserResponse update(@PathVariable(value = "id") UUID id, @RequestBody WebsiteUserRequest websiteUserRequest) throws WebsiteUserNotFoundException {
         return websiteUserService.update(id, websiteUserRequest);
     }
 
@@ -56,13 +57,13 @@ public class WebsiteUserController {
     // http://localhost:8080/websiteUsers/{id}
     @ResponseBody
     @DeleteMapping("/{id}")
-    public WebsiteUserResponse softDelete(@PathVariable("id") UUID id) {
+    public WebsiteUserResponse softDelete(@PathVariable("id") UUID id) throws WebsiteUserNotFoundException {
         return websiteUserService.softDelete(id);
     }
 
     // http://localhost:8080/websiteUsers/{id}
     @DeleteMapping("/delete/{id}")
-    public void hardDelete(@PathVariable(value = "id") UUID id) {
+    public void hardDelete(@PathVariable(value = "id") UUID id) throws WebsiteUserNotFoundException {
         websiteUserService.hardDelete(id);
     }
 

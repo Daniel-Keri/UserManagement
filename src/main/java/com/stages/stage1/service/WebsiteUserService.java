@@ -66,7 +66,6 @@ public class WebsiteUserService {
     }
 
     // DELETE
-    @Transactional
     public WebsiteUserResponse softDelete(UUID id) throws WebsiteUserNotFoundException {
         return websiteUserConverter.toResponce(
             (WebsiteUser) websiteUserRepository.findById(id)
