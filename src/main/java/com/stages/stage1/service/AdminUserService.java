@@ -3,7 +3,9 @@ package com.stages.stage1.service;
 import com.stages.stage1.converter.AdminUserConverter;
 import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
+import com.stages.stage1.dto.adminUser.AdminUserWithTypeResponse;
 import com.stages.stage1.entity.AdminUser;
+import com.stages.stage1.enums.Type;
 import com.stages.stage1.exc.AdminUserNotFoundException;
 import com.stages.stage1.repository.admin.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,16 @@ public class AdminUserService {
                 .map(adminUserConverter::toResponse)
                 .collect(Collectors.toList());
     }
+
+    public List<AdminUserWithTypeResponse> findByType(Type type) {
+        return adminUserRepository.findByType(type).stream()
+                .map(adminUser -> new AdminUserWithTypeResponse()
+                        .setType(type)
+                        .setName(adminUser.getFirstName()+" "+adminUser.getLastName()))
+                .collect(Collectors.toList());
+    }
+
+
 
     public AdminUser findByEmail(String email){
         return adminUserRepository.findByEmail(email);
