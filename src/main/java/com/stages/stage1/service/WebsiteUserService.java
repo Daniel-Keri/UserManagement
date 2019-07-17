@@ -1,6 +1,5 @@
 package com.stages.stage1.service;
 
-import com.stages.stage1.config.securityConfig.Encoder;
 import com.stages.stage1.converter.WebsiteUserConverter;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
@@ -14,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +23,11 @@ public class WebsiteUserService {
     private final WebsiteUserConverter websiteUserConverter;
 
     // GET
-    public List<WebsiteUserResponse> findAll(){
-        List<WebsiteUserResponse> websiteUserResponses = new ArrayList<>();
-        websiteUserRepository.findAll()
-                .forEach(websiteUser -> websiteUserResponses.add(websiteUserConverter.toResponse(websiteUser)));
-        return websiteUserResponses;
+    public List<WebsiteUserResponse> findAll() {
+
+        return websiteUserRepository.findAll().stream()
+                .map(websiteUserConverter::toResponse)
+                .collect(Collectors.toList());
     }
 
     public WebsiteUserResponse findById(UUID id) throws WebsiteUserNotFoundException {
@@ -35,13 +35,16 @@ public class WebsiteUserService {
         return websiteUserConverter.toResponse(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
-    public WebsiteUserResponse findByName(String firstName) {
-        return  websiteUserConverter.toResponse(websiteUserRepository.findByName(firstName).orElseThrow(WebsiteUserNotFoundException::new));
-    }
-
     public WebsiteUserResponse findByEmail(String email) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponse(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
+    }
+
+    public List<WebsiteUserResponse> findByName(String firstName, String middleName, String lastName) {
+
+        return websiteUserRepository.findByName(firstName, middleName, lastName).stream()
+                .map(websiteUserConverter::toResponse)
+                .collect(Collectors.toList());
     }
 
     // SAVE

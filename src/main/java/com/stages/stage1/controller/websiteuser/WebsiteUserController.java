@@ -2,17 +2,13 @@ package com.stages.stage1.controller.websiteuser;
 
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
-import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.service.WebsiteUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("websiteUsers")
@@ -33,15 +29,26 @@ public class WebsiteUserController {
     public WebsiteUserResponse findById(@PathVariable(value = "id") UUID id) throws WebsiteUserNotFoundException {
         return websiteUserService.findById(id);
     }
+    /*
     @GetMapping("/{firstName}")
     public WebsiteUserResponse findByName(@PathVariable(value = "firstName") String firstName){
         return  websiteUserService.findByName(firstName);
     }
+     */
 
     // http://localhost:8080/websiteUsers/findByEmail/{email}
     @GetMapping("/findByEmail/{email}")
     public WebsiteUserResponse findByEmail(@PathVariable(value = "email") String email) throws WebsiteUserNotFoundException {
         return websiteUserService.findByEmail(email);
+    }
+
+    // http://localhost:8080/websiteUsers/findByName
+    @GetMapping("/findByName")
+    public List<WebsiteUserResponse> findByName(
+            @RequestParam(name = "f", required = false) String firstName,
+            @RequestParam(name = "m", required = false) String middleName,
+            @RequestParam(name = "l", required = false) String lastName ) {
+        return websiteUserService.findByName(firstName, middleName, lastName);
     }
 
     // SAVE
@@ -59,7 +66,6 @@ public class WebsiteUserController {
 
     // DELETE
     // http://localhost:8080/websiteUsers/{id}
-    @ResponseBody
     @DeleteMapping("/{id}")
     public WebsiteUserResponse softDelete(@PathVariable("id") UUID id) throws WebsiteUserNotFoundException {
         return websiteUserService.softDelete(id);

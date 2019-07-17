@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +34,11 @@ public class BillingAddressService {
     }
 
     public List<BillingAddressResponse> findAllBillingAddressByUserId(UUID user_id) {
-        List<BillingAddressResponse> barList = new ArrayList<>();
-        billingAddressRepository.findAll()
-                .forEach( ba ->
-                { if(ba.getWebsiteUser().getId().equals(user_id)){}
 
-                    barList.add(billingAddressConverter.toResponse(ba)); } );
-
-        return barList;
+        return billingAddressRepository.findAll().stream()
+                .filter(billingAddress -> billingAddress.getWebsiteUser().getId().equals(user_id))
+                .map(billingAddressConverter::toResponse)
+                .collect(Collectors.toList());
     }
 
     public BillingAddressResponse findByInvoiceId(UUID id) {
