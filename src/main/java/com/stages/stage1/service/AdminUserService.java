@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +25,19 @@ public class AdminUserService {
 
     //GET
     public List<AdminUserResponse> findAll(){
-        List<AdminUserResponse> adminUserResponses = new ArrayList<>();
-        adminUserRepository.findAll()
-                .forEach(adminUser -> adminUserResponses.add(adminUserConverter.toResponse(adminUser)));
-        return adminUserResponses;
+
+        return adminUserRepository.findAll().stream()
+                .map(adminUserConverter::toResponse)
+                .collect(Collectors.toList());
     }
     public AdminUserResponse findById(UUID uuid) {
         return adminUserConverter.toResponse(adminUserRepository.findById(uuid).orElseThrow(AdminUserNotFoundException::new));
+    }
+    public List<AdminUserResponse> findByName(String firstName, String middleName, String lastName) {
+
+        return adminUserRepository.findByName(firstName, middleName, lastName).stream()
+                .map(adminUserConverter::toResponse)
+                .collect(Collectors.toList());
     }
 
     public AdminUser findByEmail(String email){

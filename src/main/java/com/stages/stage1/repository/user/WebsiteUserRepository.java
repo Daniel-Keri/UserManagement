@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface WebsiteUserRepository extends JpaRepository<WebsiteUser, UUID> {
     Optional<WebsiteUser> findByEmail(String email);
 
-    Optional<WebsiteUser> findByName(String firstName);
+    //Optional<WebsiteUser> findByFirstName(String firstName);
 }

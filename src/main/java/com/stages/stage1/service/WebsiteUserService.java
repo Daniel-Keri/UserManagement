@@ -1,6 +1,5 @@
 package com.stages.stage1.service;
 
-import com.stages.stage1.config.securityConfig.Encoder;
 import com.stages.stage1.converter.WebsiteUserConverter;
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
@@ -35,21 +34,15 @@ public class WebsiteUserService {
         return websiteUserConverter.toResponse(websiteUserRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new));
     }
 
-    public WebsiteUserResponse findByName(String firstName) {
-        return  websiteUserConverter.toResponse(websiteUserRepository.findByName(firstName).orElseThrow(WebsiteUserNotFoundException::new));
-    }
-
     public WebsiteUserResponse findByEmail(String email) throws WebsiteUserNotFoundException {
 
         return websiteUserConverter.toResponse(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
     }
-
     // SAVE
     public WebsiteUserResponse save(WebsiteUserRequest websiteUserRequest) {
 
         return websiteUserConverter.toResponse(websiteUserRepository.save(websiteUserConverter.toWebsiteUser(websiteUserRequest)));
     }
-
     // UPDATE
     @Transactional
     public WebsiteUserResponse update(UUID id, WebsiteUserRequest websiteUserRequest) throws WebsiteUserNotFoundException {
