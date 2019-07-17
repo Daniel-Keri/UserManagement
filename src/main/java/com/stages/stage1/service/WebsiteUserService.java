@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +23,11 @@ public class WebsiteUserService {
     private final WebsiteUserConverter websiteUserConverter;
 
     // GET
-    public List<WebsiteUserResponse> findAll(){
-        List<WebsiteUserResponse> websiteUserResponses = new ArrayList<>();
-        websiteUserRepository.findAll()
-                .forEach(websiteUser -> websiteUserResponses.add(websiteUserConverter.toResponse(websiteUser)));
-        return websiteUserResponses;
+    public List<WebsiteUserResponse> findAll() {
+
+        return websiteUserRepository.findAll().stream()
+                .map(websiteUserConverter::toResponse)
+                .collect(Collectors.toList());
     }
 
     public WebsiteUserResponse findById(UUID id) throws WebsiteUserNotFoundException {
@@ -38,11 +39,20 @@ public class WebsiteUserService {
 
         return websiteUserConverter.toResponse(websiteUserRepository.findByEmail(email).orElseThrow(WebsiteUserNotFoundException::new));
     }
+
+    public List<WebsiteUserResponse> findByName(String firstName, String middleName, String lastName) {
+
+        return websiteUserRepository.findByName(firstName, middleName, lastName).stream()
+                .map(websiteUserConverter::toResponse)
+                .collect(Collectors.toList());
+    }
+
     // SAVE
     public WebsiteUserResponse save(WebsiteUserRequest websiteUserRequest) {
 
         return websiteUserConverter.toResponse(websiteUserRepository.save(websiteUserConverter.toWebsiteUser(websiteUserRequest)));
     }
+
     // UPDATE
     @Transactional
     public WebsiteUserResponse update(UUID id, WebsiteUserRequest websiteUserRequest) throws WebsiteUserNotFoundException {

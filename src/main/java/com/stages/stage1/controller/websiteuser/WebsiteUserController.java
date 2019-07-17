@@ -41,6 +41,15 @@ public class WebsiteUserController {
         return websiteUserService.findByEmail(email);
     }
 
+    // http://localhost:8080/websiteUsers/findByName
+    @GetMapping("/findByName")
+    public List<WebsiteUserResponse> findByName(
+            @RequestParam(name = "f", required = false) String firstName,
+            @RequestParam(name = "m", required = false) String middleName,
+            @RequestParam(name = "l", required = false) String lastName ) {
+        return websiteUserService.findByName(firstName, middleName, lastName);
+    }
+
     // SAVE
     @PostMapping
     public WebsiteUserResponse save(@RequestBody WebsiteUserRequest websiteUserRequest) {
