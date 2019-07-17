@@ -1,14 +1,17 @@
 package com.stages.stage1.converter;
 
+import com.stages.stage1.config.securityConfig.Encoder;
 import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.entity.AdminUser;
+import com.stages.stage1.service.PasswordEncoderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AdminUserConverter {
+    private final PasswordEncoderService passwordEncoderService;
 
     public AdminUser toAdminUser(AdminUserRequest adminUserRequest)
     {
@@ -18,7 +21,7 @@ public class AdminUserConverter {
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setLastName(adminUserRequest.getLastName())
                 .setEmail(adminUserRequest.getEmail())
-                .setPassword(adminUserRequest.getPassword())
+                .setPassword(passwordEncoderService.encode(adminUserRequest.getPassword()))
                 .setId(adminUserRequest.getId())
                 .setCreationDate(adminUserRequest.getCreationDate())
                 .setId(adminUserRequest.getId());
