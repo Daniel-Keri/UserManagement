@@ -11,6 +11,7 @@ import java.util.UUID;
 
 
 public interface WebsiteUserRepository extends JpaRepository<WebsiteUser, UUID> {
+
     Optional<WebsiteUser> findByEmail(String email);
 
     @Query(value = "SELECT wu FROM WebsiteUser wu " +
