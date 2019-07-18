@@ -7,7 +7,7 @@ import com.stages.stage1.entity.BillingAddress;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.repository.billingAddress.BillingAddressRepository;
-import com.stages.stage1.repository.user.WebsiteUserRepository;
+import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;

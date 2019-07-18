@@ -15,7 +15,7 @@ public class AdminUserConverter {
     public AdminUser toAdminUser(AdminUserRequest adminUserRequest)
     {
         return (AdminUser) new AdminUser()
-                .setRole(adminUserRequest.getRole())
+                .setAccessRight(adminUserRequest.getAccessRight())
                 .setFirstName(adminUserRequest.getFirstName())
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setLastName(adminUserRequest.getLastName())
@@ -28,7 +28,7 @@ public class AdminUserConverter {
     public AdminUserResponse toResponse(AdminUser adminUser)
     {
         return new AdminUserResponse()
-                .setRole(adminUser.getRole())
+                .setAccessRight(adminUser.getAccessRight())
                 .setFirstName(adminUser.getFirstName())
                 .setMiddleName(adminUser.getMiddleName())
                 .setLastName(adminUser.getLastName())

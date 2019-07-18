@@ -1,6 +1,6 @@
 package com.stages.stage1.dto.adminUser;
 
-import com.stages.stage1.enums.Role;
+import com.stages.stage1.enums.AccessRight;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 public class AdminUserWithRoleResponse {
 
-    private Role role;
+    private AccessRight accessRight;
 
     private String name;
 }

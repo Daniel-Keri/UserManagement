@@ -4,7 +4,7 @@ import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.dto.adminUser.AdminUserWithRoleResponse;
 import com.stages.stage1.entity.AdminUser;
-import com.stages.stage1.enums.Role;
+import com.stages.stage1.enums.AccessRight;
 import com.stages.stage1.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,10 +47,10 @@ public  class AdminUserController {
             @RequestParam(name = "l", required = false) String lastName) {
         return adminUserService.findByName(firstName, middleName, lastName);
     }
-    @GetMapping("/findByRole")
-    public  List<AdminUserWithRoleResponse> findByType(@RequestParam(name = "role") Role type) throws IllegalArgumentException {
+    @GetMapping("/findByAccessRight")
+    public  List<AdminUserWithRoleResponse> findByType(@RequestParam(name = "accessRights") AccessRight type) throws IllegalArgumentException {
 
-        return adminUserService.findByRole(type);
+        return adminUserService.findByAccessRight(type);
     }
 
 

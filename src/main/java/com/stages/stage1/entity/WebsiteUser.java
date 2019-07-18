@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 
 import static javax.persistence.EnumType.STRING;
@@ -16,6 +13,7 @@ import static javax.persistence.EnumType.STRING;
 @Entity
 @Table(name = "website_user")
 @Data
+@DiscriminatorValue(value = "website_user")
 @Accessors(chain = true)
 public class WebsiteUser extends ParentUser {
 

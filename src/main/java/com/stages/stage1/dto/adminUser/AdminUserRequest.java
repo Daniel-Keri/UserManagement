@@ -1,7 +1,7 @@
 package com.stages.stage1.dto.adminUser;
 
 
-import com.stages.stage1.enums.Role;
+import com.stages.stage1.enums.AccessRight;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -29,6 +29,6 @@ public class AdminUserRequest {
     private String password;
 
     // </AdminUser>
-    private Role role;
+    private AccessRight accessRight;
 
 }

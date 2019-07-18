@@ -5,9 +5,9 @@ import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.dto.adminUser.AdminUserWithRoleResponse;
 import com.stages.stage1.entity.AdminUser;
-import com.stages.stage1.enums.Role;
+import com.stages.stage1.enums.AccessRight;
 import com.stages.stage1.exc.AdminUserNotFoundException;
-import com.stages.stage1.repository.admin.AdminUserRepository;
+import com.stages.stage1.repository.adminUser.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +41,10 @@ public class AdminUserService {
                 .collect(Collectors.toList());
     }
 
-    public List<AdminUserWithRoleResponse> findByRole(Role role) {
-        return adminUserRepository.findByRole(role).stream()
+    public List<AdminUserWithRoleResponse> findByAccessRight(AccessRight accessRight) {
+        return adminUserRepository.findByAccessRight(accessRight).stream()
                 .map(adminUser -> new AdminUserWithRoleResponse()
-                        .setRole(role)
+                        .setAccessRight(accessRight)
                         .setName(adminUser.getFirstName()+" "+adminUser.getLastName()))
                 .collect(Collectors.toList());
     }
@@ -65,7 +65,7 @@ public class AdminUserService {
         return adminUserConverter.toResponse(
                 (AdminUser) adminUserRepository.findById(id)
                         .orElseThrow(AdminUserNotFoundException::new)
-                .setRole(adminUserRequest.getRole())
+                .setAccessRight(adminUserRequest.getAccessRight())
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setPassword(adminUserRequest.getPassword())
                 .setLastName(adminUserRequest.getLastName())
