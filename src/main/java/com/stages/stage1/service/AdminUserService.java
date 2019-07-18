@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,8 +49,6 @@ public class AdminUserService {
                         .setName(adminUser.getFirstName()+" "+adminUser.getLastName()))
                 .collect(Collectors.toList());
     }
-
-
 
     public AdminUser findByEmail(String email){
         return adminUserRepository.findByEmail(email);
