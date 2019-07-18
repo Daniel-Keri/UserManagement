@@ -7,7 +7,7 @@ import com.stages.stage1.entity.BillingAddress;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.repository.billingAddress.BillingAddressRepository;
-import com.stages.stage1.repository.user.WebsiteUserRepository;
+import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -25,24 +25,24 @@ public class BillingAddressService {
     private final BillingAddressConverter billingAddressConverter;
 
 
-    public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) {
-        WebsiteUser user = websiteUserRepository.findById(request.getUserId()).orElseThrow(WebsiteUserNotFoundException::new);
-        BillingAddress ba = billingAddressConverter.toBillingAddress(user, request, findAllBillingAddressByUserId(user.getId()));
-        billingAddressRepository.save(ba);
+    public BillingAddressResponse saveBillingAddress(BillingAddressRequest request) throws WebsiteUserNotFoundException {
+        WebsiteUser websiteUser = websiteUserRepository.findById(request.getUserId()).orElseThrow(WebsiteUserNotFoundException::new);
+        BillingAddress billingAddress = billingAddressConverter.toBillingAddress(websiteUser, request, findAllBillingAddressByUserId(websiteUser.getId()));
+        billingAddressRepository.save(billingAddress);
 
-        return findByInvoiceId(ba.getId());
+        return findByInvoiceId(billingAddress.getId());
     }
 
     public List<BillingAddressResponse> findAllBillingAddressByUserId(UUID user_id) {
 
-        return billingAddressRepository.findAll().stream()
-                .filter(billingAddress -> billingAddress.getWebsiteUser().getId().equals(user_id))
+        return billingAddressRepository.findAllByWebsiteUserId(user_id)/*.findAll()*/.stream()
+                //.filter(billingAddress -> billingAddress.getWebsiteUser().getId().equals(user_id))
                 .map(billingAddressConverter::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public BillingAddressResponse findByInvoiceId(UUID id) {
-        BillingAddress billingAddress = billingAddressRepository.findById(id).orElse(null);
+    public BillingAddressResponse findByInvoiceId(UUID id) throws WebsiteUserNotFoundException {
+        BillingAddress billingAddress = billingAddressRepository.findById(id).orElseThrow(WebsiteUserNotFoundException::new);
 
         return billingAddressConverter.toResponse(billingAddress);
     }

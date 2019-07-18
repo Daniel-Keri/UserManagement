@@ -1,4 +1,4 @@
-package com.stages.stage1.repository.user;
+package com.stages.stage1.repository.websiteUser;
 
 import com.stages.stage1.entity.WebsiteUser;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +11,7 @@ import java.util.UUID;
 
 
 public interface WebsiteUserRepository extends JpaRepository<WebsiteUser, UUID> {
+
     Optional<WebsiteUser> findByEmail(String email);
 
     @Query(value = "SELECT wu FROM WebsiteUser wu " +

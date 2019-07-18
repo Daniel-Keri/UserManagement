@@ -3,14 +3,16 @@ package com.stages.stage1.service;
 import com.stages.stage1.converter.AdminUserConverter;
 import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
+import com.stages.stage1.dto.adminUser.AdminUserWithRoleResponse;
 import com.stages.stage1.entity.AdminUser;
+import com.stages.stage1.enums.AccessRight;
 import com.stages.stage1.exc.AdminUserNotFoundException;
-import com.stages.stage1.repository.admin.AdminUserRepository;
+import com.stages.stage1.repository.adminUser.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AdminUserService {
-
 
     private final AdminUserRepository adminUserRepository;
     private final AdminUserConverter adminUserConverter;
@@ -40,6 +41,14 @@ public class AdminUserService {
                 .collect(Collectors.toList());
     }
 
+    public List<AdminUserWithRoleResponse> findByAccessRight(AccessRight accessRight) {
+        return adminUserRepository.findByAccessRight(accessRight).stream()
+                .map(adminUser -> new AdminUserWithRoleResponse()
+                        .setAccessRight(accessRight)
+                        .setName(adminUser.getFirstName()+" "+adminUser.getLastName()))
+                .collect(Collectors.toList());
+    }
+
     public AdminUser findByEmail(String email){
         return adminUserRepository.findByEmail(email);
     }
@@ -56,7 +65,7 @@ public class AdminUserService {
         return adminUserConverter.toResponse(
                 (AdminUser) adminUserRepository.findById(id)
                         .orElseThrow(AdminUserNotFoundException::new)
-                .setType(adminUserRequest.getType())
+                .setAccessRight(adminUserRequest.getAccessRight())
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setPassword(adminUserRequest.getPassword())
                 .setLastName(adminUserRequest.getLastName())

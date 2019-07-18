@@ -5,12 +5,12 @@ import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
 import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
-import com.stages.stage1.repository.user.WebsiteUserRepository;
+import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

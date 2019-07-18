@@ -1,6 +1,6 @@
 package com.stages.stage1.service;
 
-import com.stages.stage1.config.securityConfig.Encoder;
+import com.stages.stage1.config.securityConfig.SecurityConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordEncoderService {
 
-    private final Encoder encoder;
+    private final SecurityConfig encoder;
 
     public String encode(String string){
         BCryptPasswordEncoder passwordEncoder = encoder.passwordEncoder();

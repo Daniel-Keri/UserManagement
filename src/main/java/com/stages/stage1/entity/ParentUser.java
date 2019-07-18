@@ -1,14 +1,19 @@
 package com.stages.stage1.entity;
 
+import com.stages.stage1.enums.AccessRight;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 @Data
-@Accessors(chain = true)
+@DiscriminatorColumn(name = "user_type")
 public abstract class ParentUser extends BaseEntity {
 
     @Column(name = "first_name")
@@ -23,7 +28,11 @@ public abstract class ParentUser extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "accessRight")
+    @Enumerated(EnumType.STRING)
+    private AccessRight accessRight;
 
 }

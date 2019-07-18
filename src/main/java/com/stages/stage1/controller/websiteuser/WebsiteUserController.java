@@ -7,6 +7,7 @@ import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.service.WebsiteUserService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class WebsiteUserController {
 
     // GET
     // http://localhost:8080/websiteUsers
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List<WebsiteUserResponse> findAll() {
         return websiteUserService.findAll();

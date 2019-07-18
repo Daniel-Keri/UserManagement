@@ -1,6 +1,5 @@
 package com.stages.stage1.converter;
 
-import com.stages.stage1.config.securityConfig.Encoder;
 import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.entity.AdminUser;
@@ -16,7 +15,7 @@ public class AdminUserConverter {
     public AdminUser toAdminUser(AdminUserRequest adminUserRequest)
     {
         return (AdminUser) new AdminUser()
-                .setType(adminUserRequest.getType())
+                .setAccessRight(adminUserRequest.getAccessRight())
                 .setFirstName(adminUserRequest.getFirstName())
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setLastName(adminUserRequest.getLastName())
@@ -29,7 +28,7 @@ public class AdminUserConverter {
     public AdminUserResponse toResponse(AdminUser adminUser)
     {
         return new AdminUserResponse()
-                .setType(adminUser.getType())
+                .setAccessRight(adminUser.getAccessRight())
                 .setFirstName(adminUser.getFirstName())
                 .setMiddleName(adminUser.getMiddleName())
                 .setLastName(adminUser.getLastName())
