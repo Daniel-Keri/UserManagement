@@ -5,11 +5,15 @@ import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.service.WebsiteUserService;
+import com.stages.stage1.validation.websiteUserRequestValidator.WebsiteUserRequestValidator;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +25,12 @@ import java.util.UUID;
 public class WebsiteUserController {
 
     private final WebsiteUserService websiteUserService;
+    private final WebsiteUserRequestValidator websiteUserRequestValidator;
+
+    @InitBinder("websiteUserRequest")
+    protected void initWebsiteUserRequestValidatorBinder(WebDataBinder binder) {
+        binder.addValidators(websiteUserRequestValidator);
+    }
 
     // GET
     // http://localhost:8080/websiteUsers
@@ -54,7 +64,7 @@ public class WebsiteUserController {
 
     // SAVE
     @PostMapping
-    public WebsiteUserResponse save(@RequestBody WebsiteUserRequest websiteUserRequest) {
+    public WebsiteUserResponse save(@Validated @RequestBody WebsiteUserRequest websiteUserRequest) {
         return websiteUserService.save(websiteUserRequest);
     }
 

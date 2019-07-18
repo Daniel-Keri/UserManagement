@@ -1,6 +1,8 @@
 package com.stages.stage1.validation.websiteUserRequestValidator;
 
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
+import com.stages.stage1.exc.UserAlreadyExistsException;
+import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
@@ -15,6 +17,8 @@ import static com.stages.stage1.validation.constants.ValidatorConstants.EMAIL_PA
 @Component
 public class WebsiteUserRequestValidator implements Validator {
 
+    private final WebsiteUserRepository websiteUserRepository;
+
     @Override
     public boolean supports(Class<?> clazz){ return WebsiteUserRequest.class.equals(clazz); }
 
@@ -24,15 +28,21 @@ public class WebsiteUserRequestValidator implements Validator {
         WebsiteUserRequest websiteUserRequest=(WebsiteUserRequest) object;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"email", "REQUIRED","the email must not be null or empty");
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password", "REQUIRED","the password must not be null or empty");
 
-        if(websiteUserRequest.getEmail() != null){
-            if(isValidEmail(websiteUserRequest.getEmail())){
+        String email = websiteUserRequest.getEmail();
+        if(email != null){
+            if(isValidEmail(email)){
                 errors.rejectValue("email", "REQUIRED", "invalid email");
+            }
+
+            if(websiteUserRepository.findByEmail(email).isPresent()) {
+                errors.rejectValue("email", "ALREADY_EXISTS", "EMAIL ALREADY EXISTS");
             }
         }
     }
-
+//////ANÁYD
     private boolean isValidEmail(String email) {
         return !EMAIL_PATTERN.matcher(email).matches();
     }
