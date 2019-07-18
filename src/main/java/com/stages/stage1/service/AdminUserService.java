@@ -3,9 +3,9 @@ package com.stages.stage1.service;
 import com.stages.stage1.converter.AdminUserConverter;
 import com.stages.stage1.dto.adminUser.AdminUserRequest;
 import com.stages.stage1.dto.adminUser.AdminUserResponse;
-import com.stages.stage1.dto.adminUser.AdminUserWithTypeResponse;
+import com.stages.stage1.dto.adminUser.AdminUserWithRoleResponse;
 import com.stages.stage1.entity.AdminUser;
-import com.stages.stage1.enums.Type;
+import com.stages.stage1.enums.Role;
 import com.stages.stage1.exc.AdminUserNotFoundException;
 import com.stages.stage1.repository.admin.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AdminUserService {
-
 
     private final AdminUserRepository adminUserRepository;
     private final AdminUserConverter adminUserConverter;
@@ -42,10 +41,10 @@ public class AdminUserService {
                 .collect(Collectors.toList());
     }
 
-    public List<AdminUserWithTypeResponse> findByType(Type type) {
-        return adminUserRepository.findByType(type).stream()
-                .map(adminUser -> new AdminUserWithTypeResponse()
-                        .setType(type)
+    public List<AdminUserWithRoleResponse> findByRole(Role role) {
+        return adminUserRepository.findByRole(role).stream()
+                .map(adminUser -> new AdminUserWithRoleResponse()
+                        .setRole(role)
                         .setName(adminUser.getFirstName()+" "+adminUser.getLastName()))
                 .collect(Collectors.toList());
     }
@@ -66,7 +65,7 @@ public class AdminUserService {
         return adminUserConverter.toResponse(
                 (AdminUser) adminUserRepository.findById(id)
                         .orElseThrow(AdminUserNotFoundException::new)
-                .setType(adminUserRequest.getType())
+                .setRole(adminUserRequest.getRole())
                 .setMiddleName(adminUserRequest.getMiddleName())
                 .setPassword(adminUserRequest.getPassword())
                 .setLastName(adminUserRequest.getLastName())

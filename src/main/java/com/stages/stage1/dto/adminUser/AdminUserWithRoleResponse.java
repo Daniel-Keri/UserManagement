@@ -1,14 +1,14 @@
 package com.stages.stage1.dto.adminUser;
 
-import com.stages.stage1.enums.Type;
+import com.stages.stage1.enums.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain=true)
-public class AdminUserWithTypeResponse {
+public class AdminUserWithRoleResponse {
 
-    private Type type;
+    private Role role;
 
     private String name;
 }

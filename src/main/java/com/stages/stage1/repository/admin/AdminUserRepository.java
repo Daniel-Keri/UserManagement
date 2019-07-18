@@ -1,7 +1,7 @@
 package com.stages.stage1.repository.admin;
 
 import com.stages.stage1.entity.AdminUser;
-import com.stages.stage1.enums.Type;
+import com.stages.stage1.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +26,7 @@ public interface AdminUserRepository extends JpaRepository<AdminUser, UUID> {
 
     @Query("SELECT au FROM AdminUser au " +
             "WHERE " +
-            "au.type = :type")
-    List<AdminUser> findByType(
-            @Param(value = "type") Type type);
+            "au.role = :role")
+    List<AdminUser> findByRole(
+            @Param(value = "role") Role role);
 }

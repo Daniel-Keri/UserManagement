@@ -1,9 +1,12 @@
 package com.stages.stage1.entity;
 
+import com.stages.stage1.enums.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -23,7 +26,11 @@ public abstract class ParentUser extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
