@@ -42,7 +42,7 @@ public class WebsiteUserRequestValidator implements Validator {
             }
         }
     }
-//////ANÁYD
+
     private boolean isValidEmail(String email) {
         return !EMAIL_PATTERN.matcher(email).matches();
     }
