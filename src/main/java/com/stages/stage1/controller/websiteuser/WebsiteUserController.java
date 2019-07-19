@@ -5,7 +5,7 @@ import com.stages.stage1.dto.websiteUser.WebsiteUserResponse;
 
 import com.stages.stage1.exc.WebsiteUserNotFoundException;
 import com.stages.stage1.service.WebsiteUserService;
-import com.stages.stage1.validation.websiteUserRequestValidator.WebsiteUserRequestValidator;
+import com.stages.stage1.validation.requestValidators.WebsiteUserRequestValidator;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 

@@ -49,8 +49,8 @@ public class AdminUserService {
                 .collect(Collectors.toList());
     }
 
-    public AdminUser findByEmail(String email){
-        return adminUserRepository.findByEmail(email);
+    public AdminUser findByEmail(String email)/* throws AdminUserNotFoundException*/ {
+        return adminUserRepository.findByEmail(email).orElseThrow(AdminUserNotFoundException::new);
     }
 
     //SAVE
