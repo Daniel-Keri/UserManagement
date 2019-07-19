@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -31,7 +32,7 @@ public abstract class ParentUser extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "accessRight")
+    @Column(name = "accessRight", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccessRight accessRight;
 

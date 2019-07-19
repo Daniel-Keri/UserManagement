@@ -5,9 +5,14 @@ import com.stages.stage1.dto.adminUser.AdminUserResponse;
 import com.stages.stage1.dto.adminUser.AdminUserWithRoleResponse;
 import com.stages.stage1.entity.AdminUser;
 import com.stages.stage1.enums.AccessRight;
+import com.stages.stage1.exc.AdminUserNotFoundException;
 import com.stages.stage1.service.AdminUserService;
+import com.stages.stage1.validation.requestValidators.AdminUserRequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +25,19 @@ import static org.springframework.http.HttpStatus.OK;
 public  class AdminUserController {
 
     private final AdminUserService adminUserService;
+    private final AdminUserRequestValidator adminUserRequestValidator;
+
+    @InitBinder("adminUserRequest")
+    protected void initAdminUserRequestValidatorBinder(WebDataBinder binder) {
+        binder.addValidators(adminUserRequestValidator);
+    }
+
+    @GetMapping
+    @ResponseStatus(OK)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<AdminUserResponse> getAll() {
+        return adminUserService.findAll();
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -29,13 +47,12 @@ public  class AdminUserController {
 
     @GetMapping("findByEmail/{email}")
     public AdminUser findByEmail(String email) {
-        return adminUserService.findByEmail(email);
-    }
 
-    @GetMapping
-    @ResponseStatus(OK)
-    public List<AdminUserResponse> getAll() {
-        return adminUserService.findAll();
+        try {
+            return adminUserService.findByEmail(email);
+        } catch (AdminUserNotFoundException e) {
+            throw new AdminUserNotFoundException();
+        }
     }
 
 
@@ -56,7 +73,7 @@ public  class AdminUserController {
 
     @PostMapping
     @ResponseStatus(OK)
-    public AdminUserResponse saveAdminUser(@RequestBody AdminUserRequest adminUserRequest) {
+    public AdminUserResponse saveAdminUser(@Validated @RequestBody AdminUserRequest adminUserRequest) {
         return adminUserService.save(adminUserRequest);
     }
 

@@ -1,11 +1,8 @@
-package com.stages.stage1.validation.websiteUserRequestValidator;
+package com.stages.stage1.validation.requestValidators;
 
 import com.stages.stage1.dto.websiteUser.WebsiteUserRequest;
-import com.stages.stage1.exc.UserAlreadyExistsException;
 import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -32,8 +29,9 @@ public class WebsiteUserRequestValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password", "REQUIRED","the password must not be null or empty");
 
         String email = websiteUserRequest.getEmail();
+
         if(email != null){
-            if(isValidEmail(email)){
+            if(!isValidEmail(email)){
                 errors.rejectValue("email", "REQUIRED", "invalid email");
             }
 
@@ -42,8 +40,8 @@ public class WebsiteUserRequestValidator implements Validator {
             }
         }
     }
-//////ANÁYD
+
     private boolean isValidEmail(String email) {
-        return !EMAIL_PATTERN.matcher(email).matches();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 }

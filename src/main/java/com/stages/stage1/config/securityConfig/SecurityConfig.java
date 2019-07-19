@@ -66,5 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(POST, "/websiteUsers")
                 .antMatchers(POST, "/adminUsers");
+
     }
 }

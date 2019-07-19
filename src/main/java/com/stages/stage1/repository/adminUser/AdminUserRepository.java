@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
 public interface AdminUserRepository extends JpaRepository<AdminUser, UUID> {
-    AdminUser findByEmail(String email);
 
+    Optional<AdminUser> findByEmail(String email);
 
     @Query("SELECT au FROM AdminUser au " +
             "WHERE " +
