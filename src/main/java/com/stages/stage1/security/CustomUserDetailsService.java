@@ -1,13 +1,9 @@
 package com.stages.stage1.security;
 
 import com.stages.stage1.entity.ParentUser;
-import com.stages.stage1.entity.WebsiteUser;
 import com.stages.stage1.enums.AccessRight;
 import com.stages.stage1.repository.parentUser.ParentUserRepository;
-import com.stages.stage1.repository.websiteUser.WebsiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,17 +25,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         ParentUser parentUser = parentUserRepository.findByEmail(username)
                 .orElseThrow(()->new UsernameNotFoundException(username));
 
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        Set<AccessRight> grantedAuthorities = new HashSet<>();
 
         switch (parentUser.getAccessRight()) {
             case ROLE_USER:
-                grantedAuthorities.add(new SimpleGrantedAuthority(AccessRight.ROLE_USER.toString()));
+                grantedAuthorities.add(AccessRight.ROLE_USER);
                 return new CustomUserImpl(parentUser, grantedAuthorities);
             case ROLE_ADMIN:
-                grantedAuthorities.add(new SimpleGrantedAuthority(AccessRight.ROLE_ADMIN.toString()));
+                grantedAuthorities.add(AccessRight.ROLE_ADMIN);
                 return new CustomUserImpl(parentUser, grantedAuthorities);
             case ROLE_SUPER_ADMIN:
-                grantedAuthorities.add(new SimpleGrantedAuthority(AccessRight.ROLE_SUPER_ADMIN.toString()));
+                grantedAuthorities.add(AccessRight.ROLE_SUPER_ADMIN);
                 return new CustomUserImpl(parentUser, grantedAuthorities);
             default:
                 throw new IllegalArgumentException();
